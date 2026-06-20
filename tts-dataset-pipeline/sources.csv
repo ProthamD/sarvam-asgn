@@ -1,0 +1,10 @@
+url,language,license,license_proof,notes
+# Fill one row per source YouTube video (or your own recording).
+# language     -> Sarvam language_code, e.g. en-IN or bn-IN
+# license      -> one of: cc-by | cc0-public-domain | self-recorded | explicit-permission
+# license_proof -> URL/screenshot path/email reference proving the license claim
+# notes        -> single speaker? studio/clean audio? talking-head, podcast, lecture, etc.
+#
+# Example rows (replace with real, verified sources before running the pipeline):
+# https://www.youtube.com/watch?v=XXXXXXXXXXX,en-IN,cc-by,https://...,solo TEDx-style talk, clean lav mic
+# https://www.youtube.com/watch?v=YYYYYYYYYYY,bn-IN,explicit-permission,proof/email_creatorname.png,solo vlog, indoor, no BGM

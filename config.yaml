@@ -1,0 +1,76 @@
+# =============================================================================
+# TTS Dataset Pipeline — Master Configuration
+# Adjust thresholds here without touching code.
+# =============================================================================
+
+# ── YouTube sources ──────────────────────────────────────────────────────────
+sources:
+  english:
+    language_code: "en-IN"
+    urls:
+      - "https://www.youtube.com/watch?v=iCcgS1EkmaM"
+      - "https://www.youtube.com/watch?v=r3MSnqr_RIk"
+      - "https://www.youtube.com/watch?v=xnpWtq6FsiE"
+      - "https://www.youtube.com/watch?v=bxVd6sI-XJs"
+  hindi:
+    language_code: "hi-IN"
+    urls:
+      - "https://youtu.be/JYCGydsp4mc"
+      - "https://youtu.be/_D2m6MEdgkk"
+      - "https://youtu.be/h0fH96g1Juk"
+
+# ── Sarvam API ───────────────────────────────────────────────────────────────
+sarvam:
+  model: "saaras:v3"
+  asr_mode: "transcribe"
+  with_diarization: true
+  num_speakers: null          # null = auto-detect; set to 1 for known solo speakers
+  llm_model: "sarvam-30b"      # sarvam-30b | sarvam-105b (sarvam-m is deprecated)
+  rest_api_base: "https://api.sarvam.ai"
+  llm_api_base: "https://api.sarvam.ai/v1"
+  batch_poll_interval_s: 15
+  batch_timeout_s: 3600
+
+# ── Audio format ─────────────────────────────────────────────────────────────
+audio:
+  sample_rate: 16000
+  channels: 1
+  format: "wav"
+  target_lufs: -23.0          # EBU R128 broadcast standard
+
+# ── Segmentation ─────────────────────────────────────────────────────────────
+segmentation:
+  min_duration_s: 15.0
+  max_duration_s: 90.0
+  target_duration_s: 40.0     # aim for ~40s per segment
+  silence_thresh_dbfs: -40    # dBFS; lower = stricter silence detection
+  min_silence_len_ms: 400     # minimum silence length to split on
+  max_merge_gap_ms: 600       # max gap between diarization segments to merge
+  fade_ms: 30                 # fade in/out to prevent clicks
+
+# ── Quality gates ────────────────────────────────────────────────────────────
+quality:
+  min_snr_db: 18.0            # signal-to-noise ratio
+  max_clipping_ratio: 0.002   # fraction of clipped samples allowed
+  max_spectral_flatness: 0.18 # >0.18 = likely music/noise not speech
+  max_silence_ratio: 0.35     # fraction of silent frames allowed
+  min_speech_rate_cps: 1.5   # chars/sec (rough, from diarization transcript)
+  max_speech_rate_cps: 18.0
+
+# ── Dataset ──────────────────────────────────────────────────────────────────
+dataset:
+  target_duration_min: 60
+  min_acceptable_duration_min: 45
+  train_split_ratio: 0.9
+  hf_repo_id: "ProthamD/indian-tts-60min"
+  push_to_hub: true
+  dataset_name: "indian-tts-60min"
+
+# ── Paths ────────────────────────────────────────────────────────────────────
+paths:
+  raw_audio: "data/raw"
+  segments: "data/segments"
+  filtered: "data/filtered"
+  metadata: "data/metadata"
+  reports: "reports"
+  hf_cache: "data/hf_upload"

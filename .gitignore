@@ -1,0 +1,36 @@
+# Environment / secrets
+.env
+*.env
+
+# Data (large files, not committed)
+data/raw/
+data/segments/
+data/filtered/
+data/metadata/
+reports/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+venv/
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# HuggingFace cache
+.cache/
